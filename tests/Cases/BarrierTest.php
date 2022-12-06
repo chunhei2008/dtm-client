@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of DTM-PHP.
+ *
+ * @license  https://github.com/dtm-php/dtm-client/blob/master/LICENSE
+ */
 namespace DtmClientTest\Cases;
 
 use DtmClient\Barrier;
@@ -10,6 +16,10 @@ use DtmClient\MySqlBarrier;
 use DtmClient\TransContext;
 use Hyperf\Contract\ConfigInterface;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class BarrierTest extends AbstractTestCase
 {
     public function testCall()
@@ -43,8 +53,7 @@ class BarrierTest extends AbstractTestCase
             'branch_id' => 'branchId',
             'op' => 'try',
             'phase2_url' => 'phase2Url',
-            'dtm' => 'testDtm'
+            'dtm' => 'testDtm',
         ]);
-
     }
 }

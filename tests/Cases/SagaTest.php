@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of DTM-PHP.
+ *
+ * @license  https://github.com/dtm-php/dtm-client/blob/master/LICENSE
+ */
 namespace DtmClientTest\Cases;
 
 use DtmClient\Api\ApiInterface;
@@ -9,6 +15,10 @@ use DtmClient\Grpc\Message\DtmBranchRequest;
 use DtmClient\Saga;
 use DtmClient\TransContext;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class SagaTest extends AbstractTestCase
 {
     public function testInit()
@@ -122,7 +132,7 @@ class SagaTest extends AbstractTestCase
         $this->assertSame(json_encode([
             'concurrent' => true,
             'orders' => [
-                ['test' => 'test']
+                ['test' => 'test'],
             ],
         ]), TransContext::getCustomData());
     }
@@ -135,5 +145,4 @@ class SagaTest extends AbstractTestCase
         TransContext::setGid('');
         TransContext::setBinPayloads([]);
     }
-
 }

@@ -36,8 +36,12 @@ class Result
 
     public const OK = 'OK';
 
-
-    public static function isOngoing(ResponseInterface|array $response)
+    /**
+     * Summary of isOngoing.
+     * @param array|ResponseInterface $response
+     * @return bool
+     */
+    public static function isOngoing($response)
     {
         if (is_array($response)) {
             if (isset($response['error'])) {
@@ -48,7 +52,12 @@ class Result
         return $response->getStatusCode() === self::ONGOING_STATUS;
     }
 
-    public static function isSuccess(ResponseInterface|array $response)
+    /**
+     * Summary of isSuccess.
+     * @param array|ResponseInterface $response
+     * @return bool
+     */
+    public static function isSuccess($response)
     {
         if (is_array($response)) {
             return isset($response['result']) && ! isset($response['error']);
@@ -56,7 +65,11 @@ class Result
         return $response->getStatusCode() === self::SUCCESS_STATUS;
     }
 
-    public static function isFailure(ResponseInterface|array $response)
+    /**
+     * @param array|ResponseInterface $response
+     * @return bool
+     */
+    public static function isFailure($response)
     {
         if (is_array($response)) {
             if (isset($response['error'])) {
@@ -67,7 +80,11 @@ class Result
         return $response->getStatusCode() === self::FAILURE_STATUS;
     }
 
-    public static function isErrDuplicated(ResponseInterface|array $response)
+    /**
+     * @param array|ResponseInterface $response
+     * @return bool
+     */
+    public static function isErrDuplicated($response)
     {
         if (is_array($response) && isset($response['error'])) {
             return $response['error']['code'] === self::ERR_DUPLICATED_STATUS;

@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace DtmClient\Middleware;
 
-use Closure;
 use DtmClient\Barrier;
 use Hyperf\Contract\ConfigInterface;
 use Illuminate\Http\Request;
@@ -33,7 +32,7 @@ class DtmLaravelMiddleware
         $this->config = $config;
     }
 
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
         $barrier = $this->config->get('dtm.barrier.apply', []);
 

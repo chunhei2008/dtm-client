@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of DTM-PHP.
+ *
+ * @license  https://github.com/dtm-php/dtm-client/blob/master/LICENSE
+ */
 namespace DtmClientTest\Cases;
 
 use DtmClient\Api\ApiInterface;
@@ -10,11 +16,13 @@ use DtmClient\Exception\FailureException;
 use DtmClient\Grpc\Message\DtmRequest;
 use DtmClient\Msg;
 use DtmClient\TransContext;
-use Exception;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class MsgTest extends AbstractTestCase
 {
-
     public function testInit()
     {
         $api = \Mockery::mock(ApiInterface::class);
@@ -48,7 +56,7 @@ class MsgTest extends AbstractTestCase
 
         $msg->add('testAction2', $payload);
         $this->assertSame(TransContext::getPayloads(), [json_encode($payload), json_encode($payload)]);
-        $this->assertSame(TransContext::getSteps(), [['action' => 'testAction1'],['action' => 'testAction2']]);
+        $this->assertSame(TransContext::getSteps(), [['action' => 'testAction1'], ['action' => 'testAction2']]);
 
         // Clear TransContext
         TransContext::setPayloads([]);
@@ -70,7 +78,7 @@ class MsgTest extends AbstractTestCase
 
         $msg->add('testAction2', $payload);
         $this->assertSame(TransContext::getPayloads(), [json_encode($payload), json_encode($payload)]);
-        $this->assertSame(TransContext::getSteps(), [['action' => 'testAction1'],['action' => 'testAction2']]);
+        $this->assertSame(TransContext::getSteps(), [['action' => 'testAction1'], ['action' => 'testAction2']]);
 
         // Clear TransContext
         TransContext::setPayloads([]);
@@ -97,7 +105,7 @@ class MsgTest extends AbstractTestCase
         $payload2->setCustomedData('payload2');
         $msg->add('testAction2', $payload2);
         $this->assertSame(TransContext::getBinPayloads(), [$payload1->serializeToString(), $payload2->serializeToString()]);
-        $this->assertSame(TransContext::getSteps(), [['action' => 'testAction1'],['action' => 'testAction2']]);
+        $this->assertSame(TransContext::getSteps(), [['action' => 'testAction1'], ['action' => 'testAction2']]);
     }
 
     public function testPrepare()
@@ -158,7 +166,6 @@ class MsgTest extends AbstractTestCase
             TransContext::set(static::class . 'abort', $data);
         });
 
-
         $msg = new Msg($api, $barrier);
         $isThrowFailureException = 0;
         try {
@@ -177,7 +184,6 @@ class MsgTest extends AbstractTestCase
             'gid' => TransContext::getGid(),
             'trans_type' => TransType::MSG,
         ], TransContext::get(static::class . 'abort'));
-
     }
 
     public function testDoAndSubmitThrowException()
@@ -201,11 +207,10 @@ class MsgTest extends AbstractTestCase
                     throw new FailureException();
                 }
             );
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $isThrowException = 1;
         }
 
         $this->assertSame(1, $isThrowException);
     }
-
 }

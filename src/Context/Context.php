@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of DTM-PHP.
+ *
+ * @license  https://github.com/dtm-php/dtm-client/blob/master/LICENSE
+ */
 namespace DtmClient\Context;
 
 use Hyperf\Context\Context as HyperfContext;
@@ -36,10 +42,8 @@ class Context implements ContextInterface
         return static::$nonCoContext;
     }
 
-
     private static function isUseCoroutineExtension(): bool
     {
         return extension_loaded('Swow') || extension_loaded('Swoole');
     }
-
 }

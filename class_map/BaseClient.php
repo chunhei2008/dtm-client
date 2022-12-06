@@ -2,23 +2,18 @@
 
 declare(strict_types=1);
 /**
- * This file is part of Hyperf.
+ * This file is part of DTM-PHP.
  *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ * @license  https://github.com/dtm-php/dtm-client/blob/master/LICENSE
  */
 namespace Hyperf\GrpcClient;
 
 use DtmClient\Grpc\GrpcParser;
 use Google\Protobuf\Internal\Message;
-use Hyperf\Grpc\Parser;
 use Hyperf\Grpc\StatusCode;
 use Hyperf\GrpcClient\Exception\GrpcClientException;
 use Hyperf\Utils\ApplicationContext;
 use Hyperf\Utils\ChannelPool;
-use InvalidArgumentException;
 use Swoole\Http2\Response;
 
 class BaseClient
@@ -87,8 +82,8 @@ class BaseClient
      * @param string $method The name of the method to call
      * @param Message $argument The argument to the method
      * @param callable $deserialize A function that deserializes the response
-     * @throws GrpcClientException
      * @return array|\Google\Protobuf\Internal\Message[]|Response[]
+     * @throws GrpcClientException
      */
     protected function _simpleRequest(
         string $method,
@@ -121,7 +116,7 @@ class BaseClient
      */
     protected function _clientStreamRequest(
         string $method,
-               $deserialize,
+        $deserialize,
         array $metadata = [],
         array $options = []
     ): ClientStreamingCall {
@@ -169,7 +164,7 @@ class BaseClient
      */
     protected function _bidiRequest(
         string $method,
-               $deserialize,
+        $deserialize,
         array $metadata = [],
         array $options = []
     ): BidiStreamingCall {
@@ -190,8 +185,8 @@ class BaseClient
     private function init()
     {
         if (! empty($this->options['client'])) {
-            if (! ($this->options['client'] instanceof GrpcClient)) {
-                throw new InvalidArgumentException('Parameter client have to instanceof Hyperf\GrpcClient\GrpcClient');
+            if (! $this->options['client'] instanceof GrpcClient) {
+                throw new \InvalidArgumentException('Parameter client have to instanceof Hyperf\GrpcClient\GrpcClient');
             }
             $this->grpcClient = $this->options['client'];
         } else {

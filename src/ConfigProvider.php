@@ -25,8 +25,6 @@ use Hyperf\JsonRpc\JsonRpcPoolTransporter;
 use Hyperf\JsonRpc\JsonRpcTransporter;
 use Hyperf\Rpc\Contract\PathGeneratorInterface;
 use Psr\Http\Message\ResponseInterface;
-use Hyperf\GrpcClient\BaseClient;
-use Hyperf\GrpcServer\CoreMiddleware;
 
 class ConfigProvider
 {

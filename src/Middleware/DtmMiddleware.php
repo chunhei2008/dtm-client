@@ -89,7 +89,11 @@ class DtmMiddleware implements MiddlewareInterface
         return $handler->handle($request);
     }
 
-    protected function parserRouter(array|string $callback): array
+    /**
+     * @param array|string $callback
+     * @throws RuntimeException
+     */
+    protected function parserRouter($callback): array
     {
         if (is_array($callback)) {
             [$class, $method] = $callback;
@@ -144,9 +148,8 @@ class DtmMiddleware implements MiddlewareInterface
         }
     }
 
-    protected function isGRPC():bool
+    protected function isGRPC(): bool
     {
         return $this->config->get('dtm.protocol') === Protocol::GRPC;
     }
-
 }

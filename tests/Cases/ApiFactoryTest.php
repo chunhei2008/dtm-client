@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of DTM-PHP.
+ *
+ * @license  https://github.com/dtm-php/dtm-client/blob/master/LICENSE
+ */
 namespace DtmClientTest\Cases;
 
 use DtmClient\Api\GrpcApi;
@@ -10,6 +16,10 @@ use DtmClient\Constants\Protocol;
 use Hyperf\Contract\ConfigInterface;
 use Psr\Container\ContainerInterface;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ApiFactoryTest extends AbstractTestCase
 {
     public function testGetHttpApi()
@@ -22,7 +32,6 @@ class ApiFactoryTest extends AbstractTestCase
 
         $httpApi = \Mockery::mock(HttpApi::class);
         $container->shouldReceive('get')->withArgs([HttpApi::class])->andReturn($httpApi);
-
 
         $api = (new ApiFactory())($container);
         $this->assertInstanceOf(HttpApi::class, $api);
@@ -39,7 +48,6 @@ class ApiFactoryTest extends AbstractTestCase
         $httpApi = \Mockery::mock(GrpcApi::class);
         $container->shouldReceive('get')->withArgs([GrpcApi::class])->andReturn($httpApi);
 
-
         $api = (new ApiFactory())($container);
         $this->assertInstanceOf(GrpcApi::class, $api);
     }
@@ -54,7 +62,6 @@ class ApiFactoryTest extends AbstractTestCase
 
         $httpApi = \Mockery::mock(JsonRpcHttpApi::class);
         $container->shouldReceive('get')->withArgs([JsonRpcHttpApi::class])->andReturn($httpApi);
-
 
         $api = (new ApiFactory())($container);
         $this->assertInstanceOf(JsonRpcHttpApi::class, $api);

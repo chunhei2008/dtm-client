@@ -12,8 +12,6 @@ use DtmClient\Config\DatabaseConfigInterface;
 use DtmClient\Exception\RuntimeException;
 use Hyperf\Context\Context;
 use Hyperf\Pool\Exception\ConnectionException;
-use PDO;
-use PDOStatement;
 
 abstract class AbstractTransaction implements DBTransactionInterface
 {
@@ -35,8 +33,9 @@ abstract class AbstractTransaction implements DBTransactionInterface
 
     /**
      * Code from https://github.com/hyperf/db/blob/master/src/PDOConnection.php.
+     * @return array|bool
      */
-    public function xaQuery(string $sql, array $bindings = []): bool|array
+    public function xaQuery(string $sql, array $bindings = [])
     {
         // For select statements, we'll simply execute the query and return an array
         // of the database result set. Each element in the array will be a single
@@ -52,14 +51,18 @@ abstract class AbstractTransaction implements DBTransactionInterface
         return $statement->fetchAll($fetchMode);
     }
 
-    public function xaExec(string $sql): int|false
+    /**
+     * Summary of xaExec.
+     * @return false|int
+     */
+    public function xaExec(string $sql)
     {
         return $this->connect()->exec($sql);
     }
 
-    protected function connect(): PDO
+    protected function connect(): \PDO
     {
-        if (! isset($this->databaseConfig->getOptions()[PDO::ATTR_AUTOCOMMIT])) {
+        if (! isset($this->databaseConfig->getOptions()[\PDO::ATTR_AUTOCOMMIT])) {
             throw new RuntimeException('plase set autocommit is false');
         }
 
@@ -101,7 +104,7 @@ abstract class AbstractTransaction implements DBTransactionInterface
      * Configure the connection character set and collation.
      * Code from https://github.com/hyperf/db/blob/master/src/PDOConnection.php.
      */
-    protected function configureCharset(PDO $connection)
+    protected function configureCharset(\PDO $connection)
     {
         if (! empty($this->databaseConfig->getCharset())) {
             $connection->prepare(sprintf("set names '%s'%s", $this->databaseConfig->getCharset(), $this->getCollation()))->execute();
@@ -112,7 +115,7 @@ abstract class AbstractTransaction implements DBTransactionInterface
      * Configure the timezone on the connection.
      * Code from https://github.com/hyperf/db/blob/master/src/PDOConnection.php.
      */
-    protected function configureTimezone(PDO $connection): void
+    protected function configureTimezone(\PDO $connection): void
     {
         if (! empty($this->databaseConfig->getTimezone())) {
             $connection->prepare(sprintf('set time_zone="%s"', $this->databaseConfig->getTimezone()))->execute();
@@ -123,13 +126,13 @@ abstract class AbstractTransaction implements DBTransactionInterface
      * Bind values to their parameters in the given statement.
      * Code from https://github.com/hyperf/db/blob/master/src/PDOConnection.php.
      */
-    protected function bindValues(PDOStatement $statement, array $bindings): void
+    protected function bindValues(\PDOStatement $statement, array $bindings): void
     {
         foreach ($bindings as $key => $value) {
             $statement->bindValue(
                 is_string($key) ? $key : $key + 1,
                 $value,
-                is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR
+                is_int($value) ? \PDO::PARAM_INT : \PDO::PARAM_STR
             );
         }
     }

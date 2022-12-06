@@ -35,7 +35,13 @@ class Saga extends AbstractTransaction
         TransContext::init($gid, TransType::SAGA, '');
     }
 
-    public function add(string $action, string $compensate, array|object $payload): static
+    /**
+     * Summary of addOrder.
+     * @param array|object $payload
+     * @return static
+     * @throws UnsupportedException
+     */
+    public function add(string $action, string $compensate, $payload)
     {
         TransContext::addStep([
             'action' => $action,
@@ -57,7 +63,7 @@ class Saga extends AbstractTransaction
         return $this;
     }
 
-    public function addBranchOrder(int $branch, array $preBranches): static
+    public function addBranchOrder(int $branch, array $preBranches)
     {
         $this->orders[$branch] = $preBranches;
         return $this;

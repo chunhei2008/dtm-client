@@ -86,10 +86,10 @@ class GrpcApi implements ApiInterface
 
         [$reply, $status, $response] = $client->invoke($method, $requestBranch->grpcArgument, $requestBranch->grpcDeserialize, $requestBranch->grpcMetadata, $requestBranch->grpcOptions);
 
-        if (Result::ONGOING_STATUS == $status) {
+        if ($status == Result::ONGOING_STATUS) {
             throw new OngingException();
         }
-        if (Result::FAILURE_STATUS == $status) {
+        if ($status == Result::FAILURE_STATUS) {
             throw new FailureException();
         }
         if ($status !== Result::OK_STATUS) {

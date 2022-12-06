@@ -1,5 +1,5 @@
 {
-    "name": "dtm/dtm-client",
+    "name": "dtm/dtm-client-compat",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "php": ">=8.0",
+        "php": ">=7.4",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.4",
         "hyperf/context": "^2.2|^3.0",

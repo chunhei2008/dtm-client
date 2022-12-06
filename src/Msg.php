@@ -16,7 +16,6 @@ use DtmClient\Exception\FailureException;
 use DtmClient\Exception\UnsupportedException;
 use Google\Protobuf\GPBEmpty;
 use Google\Protobuf\Internal\Message;
-use GuzzleHttp\Psr7\Response;
 
 class Msg extends AbstractTransaction
 {

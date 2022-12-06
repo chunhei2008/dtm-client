@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of DTM-PHP.
+ *
+ * @license  https://github.com/dtm-php/dtm-client/blob/master/LICENSE
+ */
 namespace DtmClient\Grpc;
 
 use Google\Protobuf\GPBEmpty;
@@ -33,11 +39,6 @@ class GrpcParser extends Parser
         return [$reply, $status, $response];
     }
 
-    private static function isinvalidStatusInDtm(int $code)
-    {
-        return $code !== 0 && $code !== 200 && $code !== 400;
-    }
-
     public static function serializeMessage($data)
     {
         if (empty($data)) {
@@ -53,5 +54,10 @@ class GrpcParser extends Parser
             $data = $data->serialize();
         }
         return self::pack((string) $data);
+    }
+
+    private static function isinvalidStatusInDtm(int $code)
+    {
+        return $code !== 0 && $code !== 200 && $code !== 400;
     }
 }

@@ -69,7 +69,7 @@ class HyperfDatabaseConfig implements DatabaseConfigInterface
         return $this->getConfig('timezone', '');
     }
 
-    private function getConfig(string $key, mixed $default = null)
+    private function getConfig(string $key, $default = null)
     {
         return $this->config->get('dtm.database.' . $key, $default);
     }

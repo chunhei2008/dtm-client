@@ -90,7 +90,7 @@ class HttpApi implements ApiInterface
         return $this->client;
     }
 
-    public function setClient(Client $client): static
+    public function setClient(Client $client)
     {
         $this->client = $client;
         return $this;

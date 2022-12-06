@@ -13,7 +13,6 @@ use DtmClient\Constants\Operation;
 use DtmClient\DBSpecial\DBSpecialInterface;
 use DtmClient\DbTransaction\DBTransactionInterface;
 use DtmClient\Exception\RuntimeException;
-use PDOException;
 
 class DtmImp
 {
@@ -36,7 +35,7 @@ class DtmImp
         $sql = $this->DBSpecial->getXaSQL($op, $xaId);
         try {
             $this->dbTransaction->xaExec($sql);
-        } catch (PDOException $exception) {
+        } catch (\PDOException $exception) {
             // Repeat commit/rollback with the same id, report this error, ignore
             if (! str_contains($exception->getMessage(), 'XAER_NOTA') && ! str_contains($exception->getMessage(), 'does not exist')) {
                 throw $exception;
@@ -57,7 +56,7 @@ class DtmImp
     /**
      * Public handler of LocalTransaction via http/grpc.
      * @throws RuntimeException
-     * @throws PDOException
+     * @throws \PDOException
      */
     public function xaHandleLocalTrans(callable $callback): void
     {

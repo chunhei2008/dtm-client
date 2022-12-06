@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of DTM-PHP.
+ *
+ * @license  https://github.com/dtm-php/dtm-client/blob/master/LICENSE
+ */
 namespace DtmClientTest\Cases;
 
 use DtmClient\Api\ApiInterface;
@@ -16,6 +22,10 @@ use DtmClient\Grpc\Message\DtmRequest;
 use DtmClient\TransContext;
 use DtmClient\XA;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class XATest extends AbstractTestCase
 {
     public function testLocalTransaction()
@@ -43,7 +53,6 @@ class XATest extends AbstractTestCase
         $this->assertEquals(1, TransContext::get(static::class . '.xaHandlePhase2'));
         $this->assertEquals(null, TransContext::get(static::class . '.localTransaction'));
         $this->cleanTransContext();
-
 
         $dtmImp->shouldReceive('xaHandleLocalTrans')->andReturnUsing(function ($callback) {
             $callback();
@@ -178,13 +187,12 @@ class XATest extends AbstractTestCase
         $xa->globalTransaction('testGid', function () {
             TransContext::set(static::class . '.globalTransaction', 1);
         });
-        $this->assertEquals(1,  TransContext::get(static::class . '.globalTransaction'));
-        $this->assertEquals(Operation::ACTION,  TransContext::getOp());
-        $this->assertEquals('testGid',  TransContext::getGid());
-        $this->assertEquals(TransType::XA,  TransContext::getTransType());
-        $this->assertEquals('',  TransContext::getBranchId());
+        $this->assertEquals(1, TransContext::get(static::class . '.globalTransaction'));
+        $this->assertEquals(Operation::ACTION, TransContext::getOp());
+        $this->assertEquals('testGid', TransContext::getGid());
+        $this->assertEquals(TransType::XA, TransContext::getTransType());
+        $this->assertEquals('', TransContext::getBranchId());
         $this->cleanTransContext();
-
     }
 
     protected function cleanTransContext()
@@ -199,5 +207,4 @@ class XATest extends AbstractTestCase
         TransContext::setTransType('');
         TransContext::setBranchId('');
     }
-
 }
